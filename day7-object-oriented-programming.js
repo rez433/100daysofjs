@@ -247,4 +247,203 @@ let beagle = new Dog();
 
 
 
+// 15) Override the fly() method for Penguin so that it 
+//  returns "Alas, this is a flightless bird."
+function Bird() { }
+
+Bird.prototype.fly = function() { return "I am flying!"; };
+
+function Penguin() { }
+Penguin.prototype = Object.create(Bird.prototype);
+Penguin.prototype.constructor = Penguin;
+
+// Only change code below this line
+
+Penguin.prototype.fly = function () {
+    return "Alas, this is a flightless bird."
+}
+
+// Only change code above this line
+
+let penguin = new Penguin();
+console.log(penguin.fly());
+
+
+
+
+// 16) Use a Mixin to Add Common Behavior Between Unrelated Objects
+let bird = {
+    name: "Donald",
+    numLegs: 2
+};
+
+let boat = {
+    name: "Warrior",
+    type: "race-boat"
+};
+
+// Only change code below this line
+let glideMixin = function (obj) {
+    obj.glide = function () {
+        console.log('glide')
+    }
+}
+
+glideMixin(boat);
+glideMixin(bird)
+
+
+
+
+// 17) Use Closure to Protect Properties
+//  Within an Object from Being Modified Externally
+function Bird() {
+    let weight = 15;
+  
+    this.getWeight = function () {
+        return weight;
+    }
+}
+
+
+
+
+// 18)  Understand the Immediately Invoked Function Expression (IIFE)
+(function () {
+    console.log("A cozy nest is ready");
+})();
+  
+
+
+
+
+// 19) Use an IIFE to Create a Module
+let funModule = (function () {
+    return {
+        isCuteMixin : function(obj) {
+            obj.isCute = function() {
+            return true;
+            };
+        },
+        singMixin : function(obj) {
+            obj.sing = function() {
+            console.log("Singing to an awesome tune");
+            };
+        }
+  
+    }
+})();
+
+
+/* 
+    ##############  Object Oriented Porgramming   ###############
+*/
+
+// Lexical Scope vs Execution Contexts (in memory) Scope
+
+
+
+// Closures
+
+
+
+// Function Object
+
+
+// Call Time
+
+
+/* 
+The call() method calls a function with a given 
+"this" value and arguments provided individually.
+*/
+
+
+
+// Prototype Chains
+/* 
+The Object.create() method creates a new object, 
+using an existing object as the prototype of the newly created object.
+*/
+const person = {
+    isHuman: false,
+    printIntroduction: function() {
+        console.log(`My name is ${this.name}. Am I human? ${this.isHuman}`);
+    }
+};
+  
+const me = Object.create(person);
+
+me.name = 'Matthew'; // "name" is a property set on "me", but not on "person"
+me.isHuman = true; // inherited properties can be overwritten
+
+me.printIntroduction();
+// expected output: "My name is Matthew. Am I human? true"
+
+
+// ####################################
+// (1) Object Decorator Pattern
+var carlike = function(obj, loc) {
+    obj.loc = loc;
+    obj.move = function() {
+        this.loc++;
+    };
+    
+    return obj;
+};
+
+var amy = carlike({}, 1);
+amy.move();
+var ben = carlike({}, 9);
+ben.move();
+
+
+// (2) it is possible to ommit "this" because everytime carlike called
+// it creates a closure obj that refers to one object therefor no need for "this"
+var carlike = function(obj, loc) {
+    obj.loc = loc;
+    obj.move = function() {
+       return obj.loc++;
+    };
+    return obj;
+};
+
+var amy = carlike({}, 1);
+amy.move();
+var ben = carlike({}, 9);
+ben.move();
+
+
+// (3) Decorator code vs Classes
+// The Decorator code from (2) can be rewritten as a Class
+// ES5 Class:
+var Car = function (loc) {
+    var obj = {loc: loc};
+    obj.move = function () {
+        obj.loc++;
+        console.log(obj.loc)
+    };
+
+    return obj;
+}
+var amy1 = Car(1);
+amy1.move();
+var ben2 = Car(9);
+ben2.move();
+
+
+// ES6 Class:
+class Car{
+    constructor (loc) {
+        this.loc = loc;
+    }
+    move() {
+        this.loc++;
+        console.log(this.loc)
+    }
+}
+let amy2 = new Car(1);
+amy2.move();
+let ben2 = new Car(9);
+ben2.move();
 
