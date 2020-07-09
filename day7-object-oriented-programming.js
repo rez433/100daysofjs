@@ -416,7 +416,7 @@ ben.move();
 
 // (3) Decorator code vs Classes
 // The Decorator code from (2) can be rewritten as a Class
-// ES5 Class:
+// ES5 Class, Constructor function pattern
 var Car = function (loc) {
     var obj = {loc: loc};
     obj.move = function () {
@@ -430,6 +430,15 @@ var amy1 = Car(1);
 amy1.move();
 var ben2 = Car(9);
 ben2.move();
+
+// Constructor function can be written as pseudoclassical pattern
+var Car1 = function (loc) {
+this.loc = loc;
+}
+Car1.prototype.move = function () {
+    this.loc++;
+}
+
 
 
 // ES6 Class:
