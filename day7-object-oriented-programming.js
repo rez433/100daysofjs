@@ -64,12 +64,12 @@ console.log(dog.name + " is " + dog.color + " and has " + dog.numLegs + " legs."
 
 
 // ES5 way:
-function Dog(name, color) {
+function Dog(name, color, numLegs) {
     this.name = name;
     this.color= color;
-    this.numLegs = 4
+    this.numLegs = numLegs;
 }
-let hound = new Dog('Skippy', 'Blue')
+let hound = new Dog('Skippy', 'Blue', 4)
 
 
 
