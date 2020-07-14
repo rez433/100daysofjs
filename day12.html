@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        header{
+            margin: 3em 0;
+        }
+        h1{
+            text-align: center
+        }
+
+    </style>
+    <title> Day 12: Design Patterns Part-1</title>
+</head>
+<body>
+    <header>
+        <h1>Day 12: Design Patterns Part-1</h1>
+    </header>
+    <main>
+        <div id="catDiv">
+
+        </div>
+    </main>
+    <script>
+        // ##############   Variables  ##############
+        const log = console.log;
+        const catDiv = document.querySelector('#catDiv');
+        const Cats = [
+            {
+                id: 0,
+                src:'https://lh3.ggpht.com/nlI91wYNCrjjNy5f-S3CmVehIBM4cprx-JFWOztLk7vFlhYuFR6YnxcT446AvxYg4Ab7M1Fy0twaOCWYcUk=s0#w=640&h=426',
+                name:'cat one',
+                counter: 0
+            },
+            {
+                id: 1,
+                src:'https://lh3.ggpht.com/kixazxoJ2ufl3ACj2I85Xsy-Rfog97BM75ZiLaX02KgeYramAEqlEHqPC3rKqdQj4C1VFnXXryadFs1J9A=s0#w=640&h=496',
+                name:'cat two',
+                counter: 0
+            },
+        ]
+
+        // ##############   functions  ##############
+        imgBuilder();
+
+        function counterUpd8() {
+            let item = this.parentNode.id;
+            imgId = item.slice(2);
+
+            Cats[imgId].counter+=1;
+
+            let countSpan = document.querySelector(`#${item} > figcaption:nth-child(2) > span`)
+            let time = Cats[imgId].counter >1 ? 'times':'time'
+            countSpan.innerHTML = `${Cats[imgId].counter} ${time}`
+
+        }
+
+        function imgBuilder() {
+            let df = new DocumentFragment()
+            for(let i=0; i< Cats.length; i++){
+                img_src = Cats[i].src;
+                img_alt = Cats[i].name;
+                img_id = Cats[i].id;
+                img_clicked = Cats[i].counter
+                const fig = document.createElement('figure')
+                fig.setAttribute('id', 'id'+img_id)
+            
+                fig.innerHTML = `
+                    <img src=${img_src} alt='${img_alt}' style="width:100%">
+                    <figcaption> ${img_alt} has been clicked <span id="count">${img_clicked} time</span></figcaption>
+                `;
+            
+                df.appendChild(fig);
+            }
+            catDiv.appendChild(df);
+        }
+
+        // ##############   EventListeners  ##############
+
+        document.querySelectorAll('img').forEach(
+            item => item.addEventListener('click', counterUpd8)
+        );
+
+    </script>
+</body>
+</html>
