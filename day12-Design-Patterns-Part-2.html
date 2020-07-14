@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            margin: 0;
+        }
+        header{
+            margin: 3em 0;
+        }
+        h1{
+            text-align: center
+        }
+        main{
+            float: right;
+            width: 70%;
+            margin-left: 0;
+        }
+        aside{
+            max-width: 25%;
+            margin-right: 0;
+        }
+        #catList{
+            text-align: center;
+        }
+
+
+    </style>
+    <title> Day 12: Design Patterns Part-2</title>
+</head>
+<body>
+    <header>
+        <h1>Day 12: Design Patterns Part-2</h1>
+    </header>
+    <main>
+        <div id="catDiv"></div>
+    </main>
+    <aside>
+        <div id="catList">
+            <h3>Cat List</h3>
+        </div>
+    </aside>
+    <script>
+        // ##############   Variables  ##############
+        const log = console.log;
+        const catDiv = document.querySelector('#catDiv');
+        const df = new DocumentFragment()
+        const Cats = [
+            {
+                id: 0,
+                src:'https://th.bing.com/th/id/OIP.01hx3rjgJdCdZufcfb83qgHaDt?w=346&h=174&c=7&o=5&dpr=1.25&pid=1.7',
+                name:'cat one',
+                counter: 0
+            },
+            {
+                id: 1,
+                src:'https://th.bing.com/th/id/OIP.kOOSUgPWePwcq1aIH1EjsQHaD4?w=289&h=180&c=7&o=5&dpr=1.25&pid=1.7',
+                name:'cat two',
+                counter: 0
+            },
+            {
+                id:2,
+                src:'https://th.bing.com/th/id/OIP.zhlOPTATNhZo1rT3iROmUgHaE8?w=223&h=180&c=7&o=5&dpr=1.25&pid=1.7',
+                name: 'cat three',
+                counter: 0
+            },
+            {
+                id:3,
+                src:'https://th.bing.com/th/id/OIP.MouPKrEKDqZpnblKLcrKBQHaE8?w=268&h=180&c=7&o=5&dpr=1.25&pid=1.7',
+                name: 'cat four',
+                counter: 0
+            },
+            {
+                id:4,
+                src:'https://th.bing.com/th/id/OIP.sGP-wp71GMwC_pcWPQsE2wHaF7?w=212&h=180&c=7&o=5&pid=1.7',
+                name: 'cat five',
+                counter: 0
+            },
+            {
+                id:5,
+                src:'https://th.bing.com/th/id/OIP.IOqyBPeRj0izEN0NbxOsDQHaEK?w=323&h=182&c=7&o=5&pid=1.7',
+                name: 'cat six',
+                counter: 0
+            },
+        ]
+
+        // ##############   functions  ##############
+        
+        listBuilder();
+        imgBuilder();
+        
+
+
+        function listBuilder() {
+            const listDiv = document.querySelector('#catList')
+            const listUL = document.createElement('UL')
+
+            for(let i=0 ; i < Cats.length; i++){
+                let li = document.createElement('LI')
+                
+                li.innerHTML = `
+                    <a id="lid${i}">${Cats[i].name}</a>
+                `;
+                
+                df.appendChild(li);
+            }
+            listUL.appendChild(df);
+            listDiv.appendChild(listUL)
+        }
+
+        function counterUpd8() {
+            let item = this.parentNode.id;
+            imgId = item.slice(2);
+
+            Cats[imgId].counter+=1;
+
+            let countSpan = document.querySelector(`#${item} > figcaption:nth-child(2) > span`)
+            let time = Cats[imgId].counter >1 ? 'times':'time'
+            countSpan.innerHTML = `${Cats[imgId].counter} ${time}`
+
+        }
+
+
+        function show(){
+            document.querySelectorAll('figure').forEach(item => item.style.display = 'none')
+            let id = this.id.slice(1)
+            log(id)
+            document.querySelector(`#${id}`).style.display = 'block'
+        }
+
+        function imgBuilder() {
+            
+            for(let i=0; i< Cats.length; i++){
+                img_src = Cats[i].src;
+                img_alt = Cats[i].name;
+                img_id = Cats[i].id;
+                img_clicked = Cats[i].counter
+                const fig = document.createElement('figure')
+                fig.setAttribute('id', 'id'+img_id)
+                fig.style.display= 'none'
+            
+                fig.innerHTML = `
+                    <img src=${img_src} alt='${img_alt}' style="width:100%">
+                    <figcaption> ${img_alt} has been clicked <span id="count">${img_clicked} time</span></figcaption>
+                `;
+            
+                df.appendChild(fig);
+            }
+            catDiv.appendChild(df);
+        }
+
+        // ##############   EventListeners  ##############
+
+        document.querySelectorAll('img').forEach(
+            item => item.addEventListener('click', counterUpd8)
+        );
+        document.querySelectorAll('li > a').forEach(
+            li => li.addEventListener('click', show )
+        );
+
+    </script>
+</body>
+</html>
