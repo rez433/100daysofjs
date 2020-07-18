@@ -1,0 +1,61 @@
+
+.navbar{
+    width: 100%;
+    height: 8rem;
+    background: rgb(10, 122, 10);
+    margin-bottom: 4rem;
+}
+.prod-img{
+
+    border: 1px solid #ccc;
+    margin-right: 2rem;
+}
+.prod-info{
+    margin-right: 2rem;
+}
+
+.prod-img > img{
+    max-width: 220px;
+}
+
+ul{
+    padding-left: 2rem;
+
+}
+
+.product{
+    display: flex;
+    flex-wrap: nowrap;
+
+}
+.cart > p{
+    border: 1px solid rgb(196, 215, 241);
+    padding: 1rem;
+    float: right
+}
+.color-box{
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+}
+.disabledBtn{
+    background-color: #d8d8d8;
+}
+button{
+    margin: 2rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+form{
+    display: flex;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    max-width: 400px;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+form > p > input[type=submit] , #name, #review {
+    width: 100%;
+}

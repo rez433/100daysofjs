@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Day 15 Vue JS Basics - Components</title>
+</head>
+<body>
+    <div class="navbar"></div>
+    <main>
+        <div id="app">
+            <div class="cart">
+                <p>Cart({{cart.length}})</p>
+            </div>
+            <product :premium="premium" @add-to-cart="updateCart"></product>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="app1.js"></script>
+</body>
+</html>
