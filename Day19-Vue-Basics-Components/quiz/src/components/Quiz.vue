@@ -1,18 +1,29 @@
 <template>
     <div class="quiz">
-        <p>
+        <p class="qstn">
             {{ decode(currentQuestion.question) }}
         </p>
 
         <ul>
-            <li class="answers" v-for="(answer, index) in shuffledAnswers" :key="index">
+            <li class="answers" 
+                v-for="(answer, index) in shuffledAnswers" 
+                :key="index"
+                @click="selectAnswer(index)"
+                :class="answerClass(index)"
+            >
                 {{ decode(answer) }}
             </li>
         </ul>
 
         <div class="btns">
-            <button class="submit">Submit</button>
-            <button class="nxt">Next</button>
+            <button 
+                @click="submitAnswer"
+                class="submit"
+                :disabled="selectedIndex === null || answered"
+            >
+                Submit
+            </button>
+            <button class="nxt" @click="next">Next</button>
         </div>
         
     </div>
@@ -27,21 +38,25 @@ export default {
         return{
             shuffledAnswers: [],
             correctIndex: null,
-
-            
+            selectedIndex: null,
+            answered: false,
         }
     },
 
     props: {
         currentQuestion: Object,
+        next: Function,
+        increment: Function
     },
     watch: {
         currentQuestion: {
             // Immediately after mount, update currentquestion
             immediate: true,
             handler() {
+                this.selectedIndex = null,
                 this.correctIndex = null,
-                this.shuffle()
+                this.shuffle(),
+                this.answered= false
             }
         }
 
@@ -53,14 +68,47 @@ export default {
         },
 
         shuffle() {
+
             let rnd = Math.floor(Math.random()*4)
             this.shuffledAnswers = [...this.currentQuestion.incorrect_answers]
             this.shuffledAnswers.splice(rnd, 0, this.currentQuestion.correct_answer)
             this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
+        }, 
+
+        selectAnswer(index) {
+            this.selectedIndex = index;
+            console.log(this.selectedIndex)
+            if(this.selectedIndex === this.correctIndex){
+                console.log('Correct!!!')
+
+            }
+        },
+
+        submitAnswer() {
+            let isCorrect = false
+            if(this.selectedIndex === this.correctIndex){
+                isCorrect = true
+            }
+            this.answered = true
+            this.increment(isCorrect)
+        },
+
+        answerClass(index) {
+            let answerClass= ''
+            if(!this.answered && this.selectedIndex === index) {
+                answerClass= 'selected'
+            }
+            else if(this.answered && this.correctIndex !== index && this.selectedIndex === index) {
+                answerClass= 'wrong'
+            }
+            else if(this.answered && this.correctIndex === index) {
+                answerClass= 'correct'
+            }
+
+            return answerClass
+            
         }
     }, 
-    
-
     
 
 }
@@ -77,9 +125,13 @@ export default {
 
     }
     .answers {
-        background: #EEE;
         border: 1px solid #ccc;
         padding: 1rem
+    }
+    .answers:hover {
+        background: #DDD;
+        cursor: pointer;
+        border: 1px solid rgb(155, 149, 149);
     }
     ul{
         margin: 1rem;
@@ -97,5 +149,20 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
+    }
+    .qstn {
+        height: 3rem;
+    }
+
+    .correct {
+        background: lightgreen;
+    }
+
+    .selected {
+        background: lightblue;
+    }
+
+    .wrong {
+        background: red
     }
 </style>

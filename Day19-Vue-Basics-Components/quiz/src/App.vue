@@ -4,6 +4,9 @@
     <Quiz
     v-if="questions.length"
       :currentQuestion="questions[index]"
+      :next="next"
+      :increment="increment"
+
     />
   </div>
 </template>
@@ -22,6 +25,8 @@ export default {
   data() {
     return {
       index: 0,
+      numCorrect: 0,
+      numTotal: 0,
 
       // all quizzes (questions with answers)
       questions: [],
@@ -29,7 +34,16 @@ export default {
   },
 
   methods: {
+    next(){
+      this.index++;
+    }
 
+  },
+  increment(isCorrect) {
+    if(isCorrect) {
+      this.numCorrect++;
+    }
+    this.numTotal++;
   },
 
   // when page loaded 
