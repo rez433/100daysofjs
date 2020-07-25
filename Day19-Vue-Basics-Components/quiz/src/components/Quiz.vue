@@ -53,7 +53,7 @@ export default {
         },
 
         shuffle() {
-            let rnd = Math.round(Math.random()*3)
+            let rnd = Math.floor(Math.random()*4)
             this.shuffledAnswers = [...this.currentQuestion.incorrect_answers]
             this.shuffledAnswers.splice(rnd, 0, this.currentQuestion.correct_answer)
             this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
@@ -92,7 +92,7 @@ export default {
         width: 120px;
         padding: 1rem;
     }
-    
+
     .btns{
         display: flex;
         flex-direction: row;
