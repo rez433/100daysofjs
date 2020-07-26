@@ -5,12 +5,18 @@
       :numTotal="numTotal"
       :timeLeft="timeLeft"
     />
-    <Quiz
+    <Quiz v-show="timeLeft>0" 
       v-if="questions.length"
       :currentQuestion="questions[index]"
       :next="next"
       :increment="increment"
       :quizIndex="numTotal"
+      :timeLeft="timeLeft"
+      :results="results"
+    />
+
+    <Results v-show="timeLeft== 0" 
+      :results="results" 
       :timeLeft="timeLeft"
     />
   </div>
@@ -19,24 +25,30 @@
 <script>
 import Header from "./components/Header.vue";
 import Quiz from "./components/Quiz.vue";
+import Results from "./components/Results.vue";
 
+function initState () {
+  return {
+      index: 0,
+      numCorrect: 0,
+      numTotal: 0,
+      timeLeft: 20,
+      results: [],
+
+      // all quizzes (questions with answers)
+      questions: [],
+    };
+}
 export default {
   name: "App",
   components: {
     Header,
     Quiz,
+    Results
   },
 
   data() {
-    return {
-      index: 0,
-      numCorrect: 0,
-      numTotal: 0,
-      timeLeft: 10,
-
-      // all quizzes (questions with answers)
-      questions: [],
-    };
+    return initState()
   },
 
   methods: {
@@ -45,6 +57,7 @@ export default {
         this.index = 0;
       }
       this.index++;
+      console.log(typeof(this.results))
     },
 
     increment(isCorrect) {

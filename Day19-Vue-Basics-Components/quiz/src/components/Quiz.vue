@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz">
+    <div class="quiz" >
         <p class="qstn">
             {{ decode(currentQuestion.question) }}
         </p>
@@ -19,13 +19,13 @@
             <button 
                 @click="submitAnswer"
                 class="submit"
-                :disabled="selectedIndex === null || answered || timeLeft == 0"
+                :disabled="selectedIndex === null || answered"
             >
                 Submit
             </button>
             <button class="nxt" 
                 @click="next"
-                :disabled="quizIndex == 10 || timeLeft == 0"
+                :disabled="quizIndex == 10"
             >Next</button>
         </div>
         
@@ -52,6 +52,7 @@ export default {
         increment: Function,
         quizIndex: Number,
         timeLeft: Number,
+        results: Array,
     },
     watch: {
         currentQuestion: {
@@ -73,11 +74,9 @@ export default {
         },
 
         shuffle() {
-
-            let rnd = Math.floor(Math.random()*4)
+            this.correctIndex= Math.floor(Math.random()*4)
             this.shuffledAnswers = [...this.currentQuestion.incorrect_answers]
-            this.shuffledAnswers.splice(rnd, 0, this.currentQuestion.correct_answer)
-            this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
+            this.shuffledAnswers.splice(this.correctIndex, 0, this.currentQuestion.correct_answer)
         }, 
 
         selectAnswer(index) {
@@ -96,6 +95,12 @@ export default {
             }
             this.answered = true
             this.increment(isCorrect)
+            this.results.push({
+                'q': this.decode(this.currentQuestion.question), 
+                'c': this.decode(this.shuffledAnswers[this.correctIndex]), 
+                'u': this.decode(this.shuffledAnswers[this.selectedIndex]),
+                's': isCorrect
+            })
         },
 
         answerClass(index) {
