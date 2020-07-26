@@ -19,11 +19,14 @@
             <button 
                 @click="submitAnswer"
                 class="submit"
-                :disabled="selectedIndex === null || answered"
+                :disabled="selectedIndex === null || answered || timeLeft == 0"
             >
                 Submit
             </button>
-            <button class="nxt" @click="next">Next</button>
+            <button class="nxt" 
+                @click="next"
+                :disabled="quizIndex == 10 || timeLeft == 0"
+            >Next</button>
         </div>
         
     </div>
@@ -46,7 +49,9 @@ export default {
     props: {
         currentQuestion: Object,
         next: Function,
-        increment: Function
+        increment: Function,
+        quizIndex: Number,
+        timeLeft: Number,
     },
     watch: {
         currentQuestion: {

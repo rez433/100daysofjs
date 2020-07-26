@@ -4,17 +4,23 @@
             <h1>Quizz</h1>
         </div>
         <div class="counter">
-            <h2>0/10</h2>
+            <h2>{{ numCorrect }} / {{ numTotal }}</h2>
         </div>
         <div class="timer">
-            60sec
+            {{ timeLeft }}
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    
+    props: [
+        'numTotal',
+        'numCorrect',
+        'timeLeft'
+    ],
+
+
 }
 </script>
 
