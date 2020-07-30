@@ -31,7 +31,7 @@ const routes = [
   },
   {
     // dynamic routing for pets
-    path: '/pets/:id',
+    path: '/pets/:species/:id',
     name: 'Pet',
     component: Pet,
   },
