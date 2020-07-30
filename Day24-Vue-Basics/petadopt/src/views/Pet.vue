@@ -18,6 +18,7 @@ export default {
   computed: {
     ...mapState(['cats', 'dogs']),
   },
+  // mounted Is lifecycle method
   mounted() {
     const animal = this[this.$route.params.species][this.$route.params.id];
     this.animal = animal;
