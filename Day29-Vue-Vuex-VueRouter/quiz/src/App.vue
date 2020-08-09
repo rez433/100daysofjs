@@ -1,13 +1,9 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <Header
-      :numCorrect="numCorrect"
-      :numTotal="numTotal"
-      :timeLeft="timeLeft"
-    />
+  <div id='app'>
+    <div id='nav'>
+      <router-link to='/'>Quiztions</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 

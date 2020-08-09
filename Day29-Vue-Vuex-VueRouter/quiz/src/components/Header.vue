@@ -1,15 +1,23 @@
 <template>
   <div>
-    <b-jumbotron
-      header="Quiz App"
-      lead="Find your favorite category and test your knowledge!"
-    >
-  </b-jumbotron>
+    <b-navbar type='dark' variant='dark'>
+      <b-navbar-nav>
+        <b-nav-item>
+          <router-link to='/'>Home</router-link>
+        </b-nav-item>
+        <b-nav-item href='/about'>
+          <router-link to='/about'>About</router-link>
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Header',
+  props: {}
 };
 </script>
+
+<style scoped></style>
