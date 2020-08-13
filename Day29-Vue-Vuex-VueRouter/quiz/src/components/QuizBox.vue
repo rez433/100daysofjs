@@ -12,7 +12,7 @@
           @click='selectAnswer(index)'
           v-for='(answer, index) in shuffledAnswers'
           :key='index'
-          >{{ answer }}</b-list-group-item
+          >{{ decode(answer) }}</b-list-group-item
         >
       </b-list-group>
 
@@ -26,6 +26,7 @@
 
 <script>
 const Entities = require('html-entities').XmlEntities;
+
 const entities = new Entities();
 
 export default {
@@ -35,13 +36,13 @@ export default {
       selectedIndex: null,
       correctIndex: null,
       answered: false,
-      shuffledAnswers: []
+      shuffledAnswers: [],
     };
   },
   props: {
     currQuestion: Object,
     next: Function,
-    increment: Function
+    increment: Function,
   },
   methods: {
     decode(str) {
@@ -64,9 +65,9 @@ export default {
       this.shuffledAnswers.splice(
         this.correctIndex,
         0,
-        this.currQuestion.correct_answer
+        this.currQuestion.correct_answer,
       );
-    }
+    },
   },
   computed: {},
   watch: {
@@ -77,9 +78,9 @@ export default {
         this.correctIndex = null;
         this.shuffle();
         this.answered = false;
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 <style scoped>

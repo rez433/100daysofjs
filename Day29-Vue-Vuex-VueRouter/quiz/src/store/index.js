@@ -34,29 +34,26 @@ export default new Vuex.Store({
       'Entertainment: Comics',
       'Entertainment: Gadgets',
       'Entertainment: Japanese Anime & Manga',
-      'Entertainment: Cartoon & Animations'
+      'Entertainment: Cartoon & Animations',
     ],
-    difficulties: ['Any Difficulty', 'Easy', 'Medium', 'Hard']
+    difficulties: ['Any Difficulty', 'Easy', 'Medium', 'Hard'],
     // types: ['Any Type', 'Multi Choice', 'True / False']
   },
   getters: {
-    quiztions: state => {
-      //console.log(state.quiz);
-      return state.quiz;
-    }
+    quiztions: (state) => /* console.log(state.quiz); */ state.quiz,
   },
   actions: {
-    async fetchQuiz({ commit }, { cat, numberOfQuestions, level}) {
+    async fetchQuiz({ commit }, { cat, numberOfQuestions, level }) {
       const link = `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${cat}&difficulty=${level}&type=multiple`;
       console.log(link);
       const res = await axios.get(link);
       commit('setQuiz', res.data.results);
-    }
+    },
   },
   mutations: {
     setQuiz: (state, quiz) => {
       state.quiz = quiz;
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });

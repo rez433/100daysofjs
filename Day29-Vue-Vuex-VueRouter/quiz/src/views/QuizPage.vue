@@ -26,7 +26,7 @@ export default {
   components: { QuizBox },
   data() {
     return {
-      index: 1
+      index: 1,
     };
   },
   computed: mapGetters(['quiztions']),
@@ -35,9 +35,9 @@ export default {
       if (this.index === 10) {
         this.index = 0;
       }
-      this.index++;
-    }
-  }
+      this.index += 1;
+    },
+  },
 };
 </script>
 
