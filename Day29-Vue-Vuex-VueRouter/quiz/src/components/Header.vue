@@ -20,4 +20,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .navbar {
+    margin-bottom: 3rem;
+  }
+</style>

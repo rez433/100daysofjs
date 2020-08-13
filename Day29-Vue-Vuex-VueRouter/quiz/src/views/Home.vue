@@ -1,49 +1,39 @@
 <template>
-  <div class='home'>
-    <Header msg='Welcome to Your Vue.js App'/>
+  <div class="home">
+    <Header />
     <h3>Customize your quiz</h3>
     <div class="quiz-form">
       <b-form>
-        <b-form-group
-          label='Number of Questions:'
-        >
+        <b-form-group label="Number of Questions:">
           <b-form-input
-            id='numberOfQuestions'
-            type='number'
-            v-model='formData.numberOfQuestions'
+            id="numberOfQuestions"
+            type="number"
+            v-model="formData.numberOfQuestions"
             required
-            placeholder='10'
+            placeholder="10"
           ></b-form-input>
         </b-form-group>
-        <b-form-group
-          label="Select Category:"
-        >
+        <b-form-group label="Select Category:">
           <b-form-select
-            :options='categories'
-            v-model='formData.selectedCategory'
+            :options="categories"
+            v-model="formData.selectedCategory"
             required
           ></b-form-select>
         </b-form-group>
-        <b-form-group
-          label="Select Difficulty:"
-        >
+        <b-form-group label="Select Difficulty:">
           <b-form-select
-            :options='difficulties'
-            v-model='formData.difficulty'
+            :options="difficulties"
+            v-model="formData.difficulty"
             required
           ></b-form-select>
         </b-form-group>
-        <b-form-group
-          label="Select Type:"
+        <button
+          type="submit"
+          @click.stop.prevent="handleSubmit"
+          class="btn btn-primary"
         >
-          <b-form-select
-            :options='types'
-            v-model='formData.type'
-            required
-          ></b-form-select>
-        </b-form-group>
-        <button type='submit' @click.stop.prevent='handleSubmit' class='btn btn-primary'>
-          Generate My Quiz</button>
+          Generate My Quiz
+        </button>
       </b-form>
     </div>
   </div>
@@ -67,31 +57,37 @@ export default {
     };
   },
   computed: {
-    ...mapState(['categories', 'difficulties', 'types']),
+    ...mapState(['categories', 'difficulties']),
   },
   methods: {
     ...mapActions(['fetchQuiz']),
     handleSubmit() {
-      console.log(this.formData.selectedCategory);
       const {
-        selectedCategory, numberOfQuestions, difficulty, type,
+        selectedCategory,
+        numberOfQuestions,
+        difficulty,
+        type,
       } = this.formData;
       const cat = this.catToId(selectedCategory);
       const level = difficulty.toLowerCase();
       const typ = this.decode(type);
       const payload = {
-        cat, numberOfQuestions, level, typ,
+        cat,
+        numberOfQuestions,
+        level,
+        typ,
       };
       // console.log(`${payload.cat} ${payload.level} ${payload.typ}
       // ${payload.numberOfQuestions} `);
       // this.$router.push(`/quiz?${cat}&${level}&${typ}`);
-      this.$router.push('/quiz');
       this.fetchQuiz(payload);
+      this.$router.push('/quiz');
     },
     decode(type) {
       if (type === 'Multi Choice') {
         return 'multiple';
-      } if (type === 'True / False') {
+      }
+      if (type === 'True / False') {
         return 'boolean';
       }
       return '';
