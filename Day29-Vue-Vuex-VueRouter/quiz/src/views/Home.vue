@@ -11,27 +11,30 @@
             v-model="formData.numberOfQuestions"
             required
             placeholder="10"
+            min="3"
+            max="10"
           ></b-form-input>
         </b-form-group>
         <b-form-group label="Select Category:">
-          <b-form-select
-            :options="categories"
-            v-model="formData.selectedCategory"
-            required
-          ></b-form-select>
+          <b-form-select :options="categories" v-model="formData.selectedCategory" required>
+          </b-form-select>
         </b-form-group>
         <b-form-group label="Select Difficulty:">
-          <b-form-select
-            :options="difficulties"
-            v-model="formData.difficulty"
-            required
-          ></b-form-select>
+          <b-form-select :options="difficulties" v-model="formData.difficulty" required>
+          </b-form-select>
         </b-form-group>
-        <button
-          type="submit"
-          @click.stop.prevent="handleSubmit"
-          class="btn btn-primary"
-        >
+        <b-form-group label="Select Time:">
+          <b-form-input
+            id="timer"
+            type="number"
+            v-model="formData.timer"
+            required
+            :min="minMax(7)"
+            :max="minMax(18)"
+          >
+          </b-form-input>
+        </b-form-group>
+        <button type="submit" @click.stop.prevent="handleSubmit" class="btn btn-primary">
           Generate My Quiz
         </button>
       </b-form>
@@ -52,7 +55,7 @@ export default {
         selectedCategory: 'Any Category',
         numberOfQuestions: 10,
         difficulty: 'Any Difficulty',
-        type: 'Any Type',
+        timer: 80,
       },
     };
   },
@@ -60,28 +63,27 @@ export default {
     ...mapState(['categories', 'difficulties']),
   },
   methods: {
-    ...mapActions(['fetchQuiz']),
+    ...mapActions(['fetchQuiz', 'setTimer']),
     handleSubmit() {
       const {
-        selectedCategory,
-        numberOfQuestions,
-        difficulty,
-        type,
+        selectedCategory, numberOfQuestions, difficulty, timer,
       } = this.formData;
       const cat = this.catToId(selectedCategory);
       const level = difficulty.toLowerCase();
-      const typ = this.decode(type);
       const payload = {
         cat,
         numberOfQuestions,
         level,
-        typ,
+        timer,
       };
-      // console.log(`${payload.cat} ${payload.level} ${payload.typ}
-      // ${payload.numberOfQuestions} `);
-      // this.$router.push(`/quiz?${cat}&${level}&${typ}`);
       this.fetchQuiz(payload);
-      this.$router.push('/quiz');
+      this.setTimer(payload);
+      setTimeout(() => {
+        this.$router.push('/quiz');
+      }, 1000);
+    },
+    minMax(t) {
+      return this.formData.numberOfQuestions * t;
     },
     decode(type) {
       if (type === 'Multi Choice') {
